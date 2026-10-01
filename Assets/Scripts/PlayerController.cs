@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public GameObject powerUp;
     public float boostedSpeed = 8f;
     float normalSpeed;
+
+    public ChaserController chaser;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -58,8 +60,6 @@ public class PlayerController : MonoBehaviour
         clampedPosition.y = Mathf.Clamp(clampedPosition.y, -4.5f, 4.5f);
         transform.position = clampedPosition;   
 
-        // Debugging: Log the player's position to the console
-        Debug.Log("Player Position: " + transform.position);    
 
     }
 
@@ -75,13 +75,13 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("hazard") || other.gameObject == goal)
         {
             hitSound.Play();
+            chaser.PlayerReachedGoal();
             ResetPosition();
         }
         else if (other.CompareTag("powerup"))
         {
             hitSound.Play();
             speed = boostedSpeed;
-            Destroy(other.gameObject);
         }
 
     }
